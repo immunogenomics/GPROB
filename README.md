@@ -18,3 +18,4 @@ G_PROB(pheno_prev,df_SNPs, df_ORs, 20)
 If you use the G-Prob tool, please cite:
 
 Knevel R, le Cessie S, Terao CC, et al. Using genetics to prioritize diagnoses for rheumatology outpatients with inflammatory arthritis. Sci Transl Med. 2020;12(545):eaay1548. doi:10.1126/scitranslmed.aay1548
+https://stm.sciencemag.org/content/12/545/eaay1548/tab-e-letters
