@@ -7,7 +7,7 @@ Multiple diseases can present with similar initial symptoms, making it difficult
 - pheno_prev = a data frame with on each row of column 1 the  disease name and the prevalence of the diseases in column 2 
 -  df_SNPs = a data frame with column 1: PT_id, columns 2 till k: headers are SNP_names, each field contains the number of minor allele a patient has (0,1 or 2) for that particular SNP. 
 -  df_ORs = data frame column 1: SNP_names, column 2 till k: each columns representing the ORs for the minor allele of SNPs for one disease 
--  N = the number of iteration to find newtons theta (see equatino 3 in the paper's Materials and Methods)
+-  N = the number of iteration to find newtons theta (see equation 3 in the paper's Materials and Methods)
 
 ### Calling the function 
 run:
