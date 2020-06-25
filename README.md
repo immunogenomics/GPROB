@@ -1,7 +1,7 @@
 
 # G-PROB
 
-Multiple diseases can present with similar initial symptoms, making it difficult to clinically differentiate between these conditions. G-PROB uses patients' genetic profile to expidite the differentiation between multiple diseases. G-Prob is described by Knevel et al in Science Translation Medicine May 2020 https://stm.sciencemag.org/content/12/545/eaay1548/tab-e-letters for the situation of inflammatory arthritis. This genetic diagnostic tool can be applied to any situation of phenotypically similar diseases with different underlying genetics.
+Multiple diseases can present with similar initial symptoms, making it difficult to clinically differentiate between these conditions. G-PROB uses patients' genetic profile to expidite the differentiation between multiple diseases. G-Prob is described by Knevel et al in Science Translation Medicine May 2020 https://stm.sciencemag.org/content/12/545/eaay1548 for the situation of inflammatory arthritis. This genetic diagnostic tool can be applied to any situation of phenotypically similar diseases with different underlying genetics.
 
 ## This function requires the following input
 - pheno_prev = a data frame with on each row of column 1 the  disease name and the prevalence of the diseases in column 2 
@@ -18,4 +18,4 @@ G_PROB(pheno_prev,df_SNPs, df_ORs, 20)
 If you use the G-Prob tool, please cite:
 
 Knevel R, le Cessie S, Terao CC, et al. Using genetics to prioritize diagnoses for rheumatology outpatients with inflammatory arthritis. Sci Transl Med. 2020;12(545):eaay1548. doi:10.1126/scitranslmed.aay1548
-https://stm.sciencemag.org/content/12/545/eaay1548/tab-e-letters
+https://stm.sciencemag.org/content/12/545/eaay1548
