@@ -4,10 +4,10 @@
 Multiple diseases can present with similar initial symptoms, making it difficult to clinically differentiate between these conditions. G-PROB uses patients' genetic profile to expidite the differentiation between multiple diseases. G-Prob is described by Knevel et al in Science Translation Medicine May 2020 https://stm.sciencemag.org/content/12/545/eaay1548/tab-e-letters for the situation of inflammatory arthritis. This genetic diagnostic tool can be applied to any situation of phenotypically similar diseases with different underlying genetics.
 
 ## This function requires the following input
-A. pheno_prev = a data frame with on each row of column 1 the  disease name and the prevalence of the diseases in column 2 
-B. df_SNPs = a data frame with column 1: PT_id, columns 2 till k: headers are SNP_names, each field contains the number of minor allele a patient has (0,1 or 2) for that particular SNP. 
-C. df_ORs = data frame column 1: SNP_names, column 2 till k: each columns representing the ORs for the minor allele of SNPs for one disease 
-D. N = the number of iteration to find newtons theta (see 
+- pheno_prev = a data frame with on each row of column 1 the  disease name and the prevalence of the diseases in column 2 
+-  df_SNPs = a data frame with column 1: PT_id, columns 2 till k: headers are SNP_names, each field contains the number of minor allele a patient has (0,1 or 2) for that particular SNP. 
+-  df_ORs = data frame column 1: SNP_names, column 2 till k: each columns representing the ORs for the minor allele of SNPs for one disease 
+-  N = the number of iteration to find newtons theta (see 
 
 ### Calling the function 
 run:
