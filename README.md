@@ -1,5 +1,5 @@
-GPROB <img src="man/figures/gprob.svg" width="181px" align="right" />
-================
+
+# GPROB <img src="man/figures/gprob.svg" width="181px" align="right" />
 
 Multiple diseases can present with similar initial symptoms, making it
 difficult to clinically differentiate between these conditions. GPROB
@@ -175,7 +175,11 @@ Let’s go through each step of GPROB to understand how how it works.
 The genetic risk score <i>S<sub>ki</sub></i> of individual *i* for
 disease *k* is defined as:
 
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;S_{ki}=0.5\times\sum_{j}{\beta_{kj}x_{ij}}"/>
+<p align="center">
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;S_{ki}=\sum_{j}{\beta_{kj}x_{ij}}"/>
+
+</p>
 
 where:
 
@@ -185,8 +189,22 @@ where:
   - <i>β<sub>kj</sub></i> is the log odds ratio for SNP *j* reported in
     a genome-wide association study (GWAS) for disease *k*
 
-We could multiply the risk scores by 0.5 to correct for possible
-overestimation of the effect sizes due to publication bias.
+<table>
+
+<tr>
+
+<td>
+
+<b>Note:</b> We might want to consider multiplying the number of risk
+alleles by some factor (e.g. 0.5) to correct for possible overestimation
+of the effect sizes due to publication bias. In other words, consider
+running <code>geno \<- 0.5 \* geno</code>.
+
+</td>
+
+</tr>
+
+</table>
 
 ``` r
 risk <- geno %*% log(or)
@@ -214,7 +232,11 @@ prevalence
 We can calculate the population level probability <i>P<sub>ki</sub></i>
 that each individual has the disease.
 
+<p align="center">
+
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;P_{ki}=\frac{1}{1+\exp{(S_{ki}-\alpha_k)}}"/>
+
+</p>
 
 We choose <i>α<sub>k</sub></i> for each disease *k* to ensure that the
 mean probability <i>P̅<sub>k</sub></i> is equal to the known prevalence
@@ -267,12 +289,20 @@ p
 
 Next we assume that each individual has one of the diseases:
 
+<p align="center">
+
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;\text{Pr}(Y_k=1|(\textstyle\sum_k{Y_k})=1)"/>
+
+</p>
 
 Then, we calculate the conditional probability <i>C<sub>ki</sub></i> of
 each disease *k*:
 
+<p align="center">
+
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;C_{ki}=\frac{P_{ki}}{\sum_k{P_{ki}}}"/>
+
+</p>
 
 ``` r
 # patient-level disease probability
