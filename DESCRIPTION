@@ -1,0 +1,38 @@
+Package: GPROB
+Title: Genetic Probability for Prioritizing Diagnosis
+Version: 1.0.0
+Authors@R: c(
+    person(
+      "Rachel", "Knevel",
+      email = "R.Knevel@lumc.nl",
+      role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0002-7494-3023")
+    ),
+    person(
+      "Kamil", "Slowikowski",
+      email = "kslowikowski@gmail.com",
+      role = c("aut"),
+      comment = c(ORCID = "0000-0002-2843-6370")
+    )
+  )
+Description: Many diseases may have similar presentations in the clinic. By
+  using genetic information, it may sometimes be possible to prioritize some
+  diagnoses over others. GPROB implements calculations of genetic probability
+  from genotypes and effect sizes for genetic variants associated with
+  diseases.
+License: GPL-3 | file LICENSE
+Depends:
+    R (>= 3.0.0)
+Imports:
+    Rdpack
+Suggests:
+    knitr,
+    rmarkdown,
+    prettydoc
+URL: https://github.com/immunogenomics/GPROB
+BugReports: https://github.com/immunogenomics/GPROB/issues
+VignetteBuilder: knitr
+RdMacros: Rdpack
+RoxygenNote: 7.1.0
+Encoding: UTF-8
+LazyData: true

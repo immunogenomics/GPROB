@@ -1,0 +1,251 @@
+---
+title: "GPROB"
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Multiple diseases can present with similar initial symptoms, making it
+difficult to clinically differentiate between these conditions. GPROB uses
+patients' genetic information to help prioritize a diagnosis. This genetic
+diagnostic tool can be applied to any situation with phenotypically similar
+diseases with different underlying genetics.
+
+
+## Citation
+
+Please cite:
+
+- Knevel, R. et al. [Using genetics to prioritize diagnoses for rheumatology
+  outpatients with inflammatory arthritis.][1] Sci. Transl. Med. 12, (2020)
+
+[1]: http://dx.doi.org/10.1126/scitranslmed.aay1548
+
+
+## License
+
+Please see the [LICENSE] file for details. [Contact us] for other licensing
+options.
+
+[LICENSE]: LICENSE
+[Contact us]: mailto:soumya@broadinstitute.org
+
+
+## Installation
+
+Install and load the GPROB R package.
+
+```{r, eval = FALSE}
+devtools::install_github("immunogenomics/GPROB")
+library(GPROB)
+```
+
+## Synopsis
+
+GPROB estimates the probability that each individual has a given phenotype.
+
+We need three inputs:
+
+- Population prevalences of the phenotypes of interest.
+
+- Odds ratios for SNP associations with the phenotypes.
+
+- SNP genotypes (0, 1, 2) for each individual.
+
+### Example
+
+Let's use a small example with artificial data to learn how to use GPROB.
+
+Suppose we have 10 patients, and we know of 7 single nucleotide polymorphisms
+(SNPs) associated with rheumatoid arthritis (RA) or systemic lupus
+erythematosus (SLE).
+
+#### Prevalence
+
+First, we should find out the prevalence of RA and SLE in the population that
+is representative of our patients.
+
+```{r}
+prevalence <- c("RA" = 0.001, "SLE" = 0.001)
+```
+
+#### Odds Ratios
+
+Next, we need to obtain the odds ratios (ORs) from published genome-wide
+association studies (GWAS). We should be careful to note which alleles are
+associated with the phenotype to compute the risk in the correct direction.
+
+```{r}
+or <- read.delim(
+  sep = "",
+  row.names = 1,
+  text = "
+snp  RA SLE
+SNP1 1.0 0.4
+SNP2 1.0 0.9
+SNP3 1.0 1.3
+SNP4 0.4 1.6
+SNP5 0.9 1.0
+SNP6 1.3 1.0
+SNP7 1.6 1.0
+")
+or <- as.matrix(or)
+```
+
+#### Genotypes
+
+Finally, we need the genotype data for each of our 10 patients. Here, the data
+is coded in the form (0, 1, 2) to indicate the number of copies of the risk
+allele.
+
+```{r}
+geno <- read.delim(
+  sep = "",
+  row.names = 1,
+  text = "
+id SNP1 SNP2 SNP3 SNP4 SNP5 SNP6
+ 1    0    1    0    2    1    0
+ 2    0    0    1    0    2    2
+ 3    1    0    1    1    0    2
+ 4    1    1    0    2    0    0
+ 5    0    1    1    1    1    0
+ 6    0    0    1    3    0    2
+ 7    2    2    2    2    2    2
+ 8    1    2    0    2    1    1
+ 9    0    2    1   NA    1    2
+10    1    0    2    2    2    0
+")
+geno <- as.matrix(geno)
+```
+
+#### Dealing with missing or invalid data
+
+Before we run the `GPROB()` function, we need to deal with invalid and missing
+data.
+
+We remove individuals who have `NA` for any SNP:
+
+```{r}
+ix <- apply(geno, 1, function(x) !any(is.na(x)))
+geno <- geno[ix,]
+```
+
+We remove individuals who have invalid allele counts:
+
+```{r}
+ix <- apply(geno, 1, function(x) !any(x < 0 | x > 2))
+geno <- geno[ix,]
+```
+
+And we make sure that we use the same SNPs in the `or` and `geno` matrices:
+
+```{r}
+or <- or[colnames(geno),]
+```
+
+#### Run GPROB
+
+Then we can run the GPROB function to estimate probabilities:
+
+```{r}
+library(GPROB)
+res <- GPROB(prevalence, or, geno)
+res
+```
+
+## Calculations, step by step
+
+Let's go through each step of GPROB to understand how how it works.
+
+The genetic risk score <i>S<sub>ki</sub></i> of individual *i* for disease *k* is defined as:
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;S_{ki}=\sum_{j}{\beta_{kj}x_{ij}}"/>
+
+where:
+
+- <i>x<sub>ij</sub></i> is the number of risk alleles of SNP *j* in individual *i*
+
+- <i>β<sub>kj</sub></i> is the log odds ratio for SNP *j* reported in a genome-wide
+  association study (GWAS) for disease *k*
+
+<table><tr><td>
+**Note:** We might want to consider multiplying the number of risk alleles by a
+factor (e.g. 0.5) to correct for possible overestimation of the effect sizes
+due to publication bias. In other words, consider running `geno <- 0.5 * geno`.
+</td></tr></table>
+
+```{r}
+risk <- geno %*% log(or)
+risk
+```
+
+The known prevalence <i>V<sub>k</sub></i> of each disease in the general population:
+
+```{r}
+prevalence
+```
+
+We can calculate the population level probability <i>P<sub>ki</sub></i> that each individual
+has the disease.
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;P_{ki}=\frac{1}{1+\exp{(S_{ki}-\alpha_k)}}"/>
+
+We choose <i>α<sub>k</sub></i> for each disease *k* to ensure that the mean
+probability <i>P&#773;<sub>k</sub></i> is equal to the known prevalence
+<i>V<sub>k</sub></i> of the disease in the population.
+
+We do this by minimizing <i>P&#773;<sub>k</sub> - V<sub>k</sub></i> with golden
+section search and successive parabolic interpolation.
+
+```{r}
+# @param alpha A constant that we choose manually.
+# @param risk A vector of risk scores for individuals.
+# @returns A vector of probabilities for each individual.
+prob <- function(alpha, risk) {
+  1 / (
+    1 + exp(alpha - risk)
+  )
+}
+alpha <- sapply(seq(ncol(risk)), function(i) {
+  o <- optimize(
+    f        = function(alpha, risk, prevalence) {
+      ( mean(prob(alpha, risk)) - prevalence ) ^ 2
+    },
+    interval = c(-100, 100),
+    risk = risk[,i],
+    prevalence = prevalence[i]
+  )
+  o$minimum
+})
+alpha
+```
+
+Now that we have computed alpha, we can compute the population-level
+probabilities of disease for each individual.
+
+```{r}
+# population-level disease probability
+p <- sapply(seq_along(alpha), function(i) prob(alpha[i], risk[,i]))
+p
+```
+
+Next we assume that each individual has one of the diseases:
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;\text{Pr}(Y_k=1|(\textstyle\sum_k{Y_k})=1)"/>
+
+Then, we calculate the conditional probability <i>C<sub>ki</sub></i> of each
+disease *k*: 
+
+<img src="https://latex.codecogs.com/svg.latex?\Large&space;C_{ki}=\frac{P_{ki}}{\sum_k{P_{ki}}}"/>
+
+```{r}
+# patient-level disease probability
+cp <- p / rowSums(p)
+cp
+```
+

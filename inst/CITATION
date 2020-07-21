@@ -1,0 +1,27 @@
+citHeader("To cite GPROB in publications use:")
+
+citEntry(entry = "Article",
+  title        = "Using genetics to prioritize diagnoses for rheumatology outpatients with inflammatory arthritis",
+  author       = personList(
+                   as.person("Rachel Knevel"),
+                   as.person("Saskia le Cessie"),
+                   as.person("Chikashi C Terao"),
+                   as.person("Kamil Slowikowski"),
+                   as.person("Jing Cui"),
+                   as.person("Tom W J Huizinga"),
+                   as.person("Karen H Costenbader"),
+                   as.person("Katherine P Liao"),
+                   as.person("Elizabeth W Karlson"),
+                   as.person("Soumya Raychaudhuri")),
+  journal      = "Science Translational Medicine",
+  year         = "2020",
+  volume       = "12",
+  number       = "545",
+  url          = "https://doi.org/10.1126/scitranslmed.aay1548",
+
+  textVersion  =
+  paste("Knevel, R. et al. Using genetics to prioritize",
+        "diagnoses for rheumatology outpatients with",
+        "inflammatory arthritis. Sci. Transl. Med. 12, (2020)")
+)
+
