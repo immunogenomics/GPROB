@@ -195,10 +195,10 @@ where:
 
 <td>
 
-<b>Note:</b> We might want to consider multiplying the number of risk
-alleles by some factor (e.g. 0.5) to correct for possible overestimation
-of the effect sizes due to publication bias. In other words, consider
-running <code>geno \<- 0.5 \* geno</code>.
+<b>Note:</b> We might want to consider shrinking the risk by some factor
+(e.g. 0.5) to correct for possible overestimation of the effect sizes
+due to publication bias. In other words, consider running <code>geno \<-
+0.5 \* geno</code>.
 
 </td>
 
