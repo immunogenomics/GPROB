@@ -168,6 +168,13 @@ res
 #> 10 0.1931034 0.8068966
 ```
 
+In this example, individual 2 has RA with probability 0.003, conditional
+on the assumption that the population consists of the 8 individuals in
+the dataset.
+
+In this example, individual 2 has RA with probability 0.77, conditional
+on the assumption that individual 2 has either RA or SLE.
+
 ## Calculations, step by step
 
 Let’s go through each step of GPROB to understand how how it works.
