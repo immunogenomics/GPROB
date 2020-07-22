@@ -238,12 +238,11 @@ that each individual has the disease.
 
 </p>
 
-We choose <i>α<sub>k</sub></i> for each disease *k* to ensure that the
-mean probability <i>P̅<sub>k</sub></i> is equal to the known prevalence
-<i>V<sub>k</sub></i> of the disease in the population.
-
-We do this by minimizing <i>P̅<sub>k</sub> - V<sub>k</sub></i> with
-golden section search and successive parabolic interpolation.
+We find <i>α<sub>k</sub></i> for each disease *k* by minimizing
+<i>(P̅<sub>k</sub> - V<sub>k</sub>)<sup>2</sup></i>. This ensures that
+the mean probability <i>P̅<sub>k</sub></i> across individuals is equal
+to the known prevalence <i>V<sub>k</sub></i> of the disease in the
+population.
 
 ``` r
 # @param alpha A constant that we choose manually.
