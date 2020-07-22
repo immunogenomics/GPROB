@@ -168,11 +168,14 @@ res
 #> 10 0.1931034 0.8068966
 ```
 
-In this example: - Individual 2 has RA with probability 0.003,
-conditional on the assumption that the population consists of the 8
-individuals in the dataset. - Individual 2 has RA with probability 0.77,
-conditional on the additional assumption that individual 2 has either RA
-or SLE.
+In this example:
+
+  - Individual 2 has RA with probability 0.003, conditional on the
+    assumption that the population consists of the 8 individuals in the
+    dataset.
+
+  - Individual 2 has RA with probability 0.77, conditional on the
+    additional assumption that individual 2 has either RA or SLE.
 
 ## Calculations, step by step
 
