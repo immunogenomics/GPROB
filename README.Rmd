@@ -17,6 +17,10 @@ patients' genetic information to help prioritize a diagnosis. This genetic
 diagnostic tool can be applied to any situation with phenotypically similar
 diseases with different underlying genetics.
 
+<!-- badges: start -->
+[![R build status](https://github.com/immunogenomics/GPROB/workflows/R-CMD-check/badge.svg)](https://github.com/immunogenomics/GPROB/actions)
+<!-- badges: end -->
+
 
 ## Citation
 
